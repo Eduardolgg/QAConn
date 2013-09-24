@@ -1,0 +1,39 @@
+/* 
+    Document   : jquery.qaconn.styles
+    Created on : 05-sep-2013, 23:56:34
+    Author     : Eduardo L. García González
+    Description:
+        QAConn generic stylesheet.
+*/
+
+.qac-container {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.qac-content {
+    width: 18px;
+    height: 18px;
+    background: transparent url(../images/qaconn/ball.png) no-repeat scroll left top;
+}
+
+.qac-processing {
+    background-color: red;
+    float: left;
+    width: 1px;
+    height: 1px;
+}
+
+.qac-image-good {
+    background: transparent url(../images/qaconn/ball.png) no-repeat scroll -18px top;
+}
+.qac-image-medium {
+    background: transparent url(../images/qaconn/ball.png) no-repeat scroll -36px top;
+}
+.qac-image-low {
+    background: transparent url(../images/qaconn/ball.png) no-repeat scroll -54px top;
+}
+.qac-image-bad {    
+    background: transparent url(../images/qaconn/ball.png) no-repeat scroll -72px top;
+}

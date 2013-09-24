@@ -1,0 +1,12 @@
+/* 
+    Document   : styles
+    Created on : 09-sep-2013, 23:50:13
+    Author     : Eduardo L. García González
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.qaconn,.qac-google, .my-chart2, .my-chart {
+    display: inline-block;
+}
+
