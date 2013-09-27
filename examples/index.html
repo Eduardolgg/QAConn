@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" href="../css/jquery.qaconn.styles.css" rel="stylesheet" />
+        <link type="text/css" href="./css/styles.css" rel="stylesheet" />
+        <link type="text/css" href="./css/shCore.css" rel="stylesheet" />
+        <link type="text/css" href="./css/shThemeDefault.css" rel="stylesheet" />
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="../lib/jquery.qaconn.js"></script>
+        <script type="text/javascript" src="../lib/jquery.qaconn.es.js"></script>
+        <script type="text/javascript" src="../lib/jquery.peity.js"></script>
+        <script type="text/javascript" src="./js/shCore.js"></script>
+        <script type="text/javascript" src="./js/shBrushJScript.js"></script>
+
+
+        <script type="text/javascript">
+            var qac1, qac2;
+            $(document).ready(function() {
+                $("#qaconn_e1").qaconn({remote: {url: "noProcess.html", process: false}});
+
+                var qac0 = $(".qaconn_e2").qaconn({remote: {url: "qaserver", process: true}});
+
+                var updatingChart = $(".updating-chart").peity("line", {width: 64});
+                qac1 = $(".qaconn_e3").qaconn({
+                    interval: 5000,
+                    queueLength: 40,
+                    remote: {url: "noProcess.html", process: false},
+                    after: function(queue, lastCalc, options) {
+                        var graphData = "";
+                        for (var i = 0; i < queue.length; i++) {
+                            graphData = graphData + "," + (queue[i][0] == "ok" ? queue[i][1] : "-" + queue[i][1]);
+                        }
+                        $(".updating-chart").text(graphData.substr(1, graphData.length));
+                        updatingChart.change();
+                        if (options.debug) {
+                            console.debug("After queue: " + queue);
+                        }
+                    },
+                    debug: false
+                });
+
+                $("#qaconn_e4").qaconn({
+                    interval: 900000, // cal interval 15 minutes.
+                    remote: {url: "noProcess.html", process: false}
+                });
+
+                SyntaxHighlighter.highlight();
+            });
+        </script>
+    </head>
+    <body>
+        <h1>QAConn Examples</h1>
+        <fieldset>
+            <legend>Example 1: Simple initialization</legend>
+            <p>
+                This is the simple QAConn initialization. For the initialization does not need to specify the url and process parameters, these tell the plugin the url of the server with which you can verify that the server process is still active and tells the plugin whether the server processes the call or not, in this case does not process calls. The noProcess.html page should only contain [].</p>
+            <div id="qaconn_e1"></div>
+            <pre class="brush:js">
+                $("#qaconn").qaconn({remote: {url: "noProcess.html", process: false}});
+
+                // Some code
+
+                <div id="qaconn"></div>
+            </pre>
+        </fieldset>
+        <fieldset>
+            <legend>Example 2: Server side prossessing</legend>
+            <p>The information processing on this server allows store the qaconn call queue, this allows return to the plugin its history and continue the process where it left off.</p>
+            <div class="qaconn_e2"></div>
+            <pre class="brush:js">
+                var qac = $(".qaconn").qaconn({
+                    remote: {url: "qaserver", process: true}
+                });
+
+                // Some code
+
+                <div class="qaconn"></div>                
+            </pre>
+        </fieldset>
+        <fieldset>
+            <legend>Example 3: Complex Example</legend>
+            <p>
+                In this example we can see that several div can be initialized to store the same information, and is connected to the peity plugin that allows us to display a graph of the queue.
+            </p>
+            <p>
+                These are some of the parameters used in the initialization of the plugin in this example:
+            </p>
+            <ul>
+                <li>internal: Time in milliseconds between calls.</li>
+                <li>queueLength: Size of the list that stores the history of calls made.</li>
+                <li>after: function to execute once the call, in this case we use it to send the data to peity.</li>
+            </ul>        
+            <h2>Firsth div</h2>
+            <div class="qaconn_e3"></div>
+            <div class="my-chart">
+                <span class="updating-chart"></span>
+            </div>
+            <h2>Second div</h2>
+            <div class="qaconn_e3"></div>
+            <div class="my-chart">
+                <span class="updating-chart"></span>
+            </div>
+            <pre class="brush:js">
+                var updatingChart = $(".updating-chart").peity("line", { width: 64 });
+                var qac1 = $(".qaconn").qaconn({
+                    interval: 5000,
+                    queueLength: 40,
+                    remote: {url: "qaserver", process: true},
+                    after: function(queue, lastCalc, options) {
+                        var graphData = "";
+                        for(var i = 0; i < queue.length; i++) {
+                            graphData = graphData + "," + (queue[i][0] == "ok" ? queue[i][1] : "-" + queue[i][1] );
+                        }
+                        $(".updating-chart").text(graphData.substr(1, graphData.length));
+                        updatingChart.change();
+                        if (options.debug) {console.debug("After queue: " + queue);}
+                    }
+                });
+
+                // Some code
+
+                <div class="qaconn"></div>
+
+                // More code
+
+                <div class="qaconn"></div>
+            </pre>
+        </fieldset>
+        <fieldset>
+            <legend>Example 4: Using qaconn to maintain the connection with the server</legend>
+            <p>QAConn also be used to maintain an active connection to the server, so they just have to make a basic initialization of the plugin, increase the interval time of calls and hide the div that contains the plugin.<p>
+            <pre class="brush:js">
+                $("#qaconn").qaconn({
+                    interval: 900000, // cal interval 15 minutes.
+                    remote: {url: "noProcess.html", process: false}
+                });
+
+                // Some code
+
+                <div id="qaconn" style="display: none;"></div>
+            </pre>
+            <div id="qaconn_e4" style="display: none;"></div>
+    </body>
+</html>
