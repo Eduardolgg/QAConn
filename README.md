@@ -3,7 +3,7 @@ QAConn
 
 QAConn is a JQuery plugin that show information of a server connection.
 
-Copyright 2013 Eduardo García, all rights reserved.
+Copyright 2013 Eduardo GarcÃ­a, all rights reserved.
 
 This source file is free software, under either the GPL v3 license, 
 as supplied with this software.
@@ -20,7 +20,7 @@ and a qaconn language library, it's show bellow:
 
 ```javascript
 <script type="text/javascript" src="../lib/jquery.qaconn.js"></script>
-<script type="text/javascript" src="../lib/jquery.qaconn.es.js"></script
+<script type="text/javascript" src="../lib/jquery.qaconn.es.js"></script>
 ```
 
 The next step is declare the html plugin container:
@@ -35,3 +35,7 @@ Finally start the plugin in your javascript code block:
 $("#qaconn").qaconn({remote: {url: "noProcess.html", process: false}});
 ```
 
+Demo page
+-------
+
+You can view a demo in: [QAConn Demo](http://jkingii.com/QAConn/)
